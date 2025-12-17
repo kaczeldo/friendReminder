@@ -31,11 +31,56 @@ $stmt = $pdo->prepare(
         phone,
         email
     FROM friends
-    WHERE user_id = ?
-    ORDER BY last_visit ASC"
+    WHERE user_id = ?"
 );
 
 $stmt->execute([$userId]);
 $friends = $stmt->fetchAll();
+
+$today = new DateTime('today');
+
+foreach ($friends as &$friend) {
+    $lastVisit = new DateTime($friend['last_visit']);
+    $frequencyDays = (int)$friend['frequency_days'];
+
+    // calculate next visit
+    $nextVisit = (clone $lastVisit)->modify("+{$frequencyDays} days");
+
+    // calculate days remaining
+    $interval = $today->diff($nextVisit);
+    $daysRemaining = (int)$interval->format('%r%a');
+
+    // Determine status
+    if ($daysRemaining < 0) {
+        $status = 'overdue';
+    } elseif ($daysRemaining <= 2) {
+        $status = 'urgent';
+    } elseif ($daysRemaining <= 7) {
+        $status = 'soon';
+    } else {
+        $status = 'ok';
+    }
+
+    // attach computed fields
+    $friend['next_visit'] = $nextVisit->format('Y-m-d');
+    $friend['days_remaining'] = $daysRemaining;
+    $friend['status'] = $status;
+}
+
+// sort by urgency
+$priority = [
+    'overdue' => 0,
+    'urgent' => 1,
+    'soon' => 2,
+    'ok' => 3
+];
+
+usort($friends, function ($a, $b) use ($priority) {
+    if ($priority[$a['status']] === $priority[$b['status']]) {
+        return $a['days_remaining'] <=> $b['days_remaining'];
+    }
+
+    return $priority[$a['status']] <=> $priority[$b['status']];
+});
 
 echo json_encode($friends);
