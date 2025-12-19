@@ -1,0 +1,114 @@
+
+html, body {
+    margin: 0;
+    padding: 0;
+    background-color: rgb(22, 0, 87);
+}
+
+.myWrapper {
+    background-color: rgb(22, 0, 87);
+    width: 100%;
+}
+
+/* Friends wrapper stylings */
+
+div#friends {
+    background-color: rgb(22, 0, 87);
+}
+
+/* Friend card stylings */
+
+.friend-card {
+    background-color: rgb(185, 185, 185);
+    width: 100%;
+    border: 2px solid white;
+    border-radius: 10px;
+    margin: 20px;
+    padding: 5px;
+    min-width: 200px;
+}
+
+/* Tablets */
+@media (min-width: 577px) and (max-width: 991px) {
+    .friend-card {
+        min-width: 350px;
+    }
+}
+
+/* Large screens and above */
+@media (min-width: 992px) {
+    .friend-card {
+        min-width: 500px;
+    }
+}
+
+
+.card-top {
+    width: 100%;
+}
+
+.friend-name {
+    font-size: 1.5em;
+}
+
+/* progress-bar stylings and colors */
+
+/* NORMAL state (soon and ok) */
+div.progress-bar{
+    width: 100%;
+    background-color: lightblue;
+    height: 35px;
+    border: 2px solid black;
+    border-radius: 8px;
+}
+
+div.progress{
+    background-color: rgb(91, 167, 91);
+    height: 100%;
+}
+
+/* URGENT colors */
+div.urgent > div.progress-bar{
+    background-color: green;
+}
+
+div.urgent > div.progress-bar > div.progress{
+    background-color: red;
+}
+
+/* OVERDUE COLORS */
+
+div.overdue > div.progress-bar{
+    background-color: white;
+}
+
+div.overdue > div.progress-bar > div.progress{
+    background-color: black;
+}
+
+
+
+/* TOP BAR STYLES */
+.top-bar{
+    background-color: rgb(22, 0, 87);
+}
+
+div.top-bar > h2 {
+    color: white;
+}
+
+div.top-bar > a {
+    color: lightblue;
+    text-decoration: none;
+    margin-bottom: 10px;
+}
+
+div.top-bar > a:hover {
+    color: red;
+    text-decoration: none;
+}
+
+div.top-bar > a:active {
+    color: green;
+    text-decoration: none;
+}
